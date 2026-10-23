@@ -32,11 +32,11 @@ const PANELS: Panel[] = [
      * The lime panel is what ONE person wins; on its own it reads as a lottery.
      * This one is what every selected applicant gets regardless of who wins,
      * which is the half that makes "CM" a job rather than a competition.
-     * Figures come from the campaign brief: 8 seats, 8 cities, 90 paid days
+     * Figures come from the campaign brief: 10 seats, 10 cities, 90 paid days
      * with a city ops lead as mentor and a weekly scorecard.
      */
     theme: "pink",
-    lead: { label: "Seats this cohort", amount: "8", sub: "8 freshers, 8 whole cities" },
+    lead: { label: "Seats this cohort", amount: "10", sub: "10 freshers, 10 whole cities" },
     plus: {
       label: "Every seat gets",
       amount: "90 days paid",

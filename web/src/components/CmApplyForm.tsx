@@ -36,6 +36,7 @@ const EMPTY: CmApplicationFormData = {
   experience: "",
   education: "",
   degree: "",
+  college: "",
   previousExperience: "",
   link: "",
   answer: "",
@@ -312,6 +313,22 @@ const CmApplyForm = () => {
           </span>
           <ErrorSlot name="degree" />
         </div>
+      </div>
+
+      <div className="field">
+        <label htmlFor="college">College</label>
+        <input
+          {...fieldProps("college")}
+          type="text"
+          placeholder="e.g. Delhi University"
+          autoComplete="organization"
+          maxLength={160}
+          aria-describedby="college-hint college-error"
+        />
+        <span className="hint" id="college-hint">
+          Optional. Where you study or last studied.
+        </span>
+        <ErrorSlot name="college" />
       </div>
 
       <div className="field">

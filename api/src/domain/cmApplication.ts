@@ -54,6 +54,8 @@ export const CITIES = [
   "mumbai",
   "hyderabad",
   "lucknow",
+  "chennai",
+  "chandigarh",
 ] as const;
 export type City = (typeof CITIES)[number];
 
@@ -66,6 +68,8 @@ export const CITY_LABELS: Record<City, string> = {
   mumbai: "Mumbai",
   hyderabad: "Hyderabad",
   lucknow: "Lucknow",
+  chennai: "Chennai",
+  chandigarh: "Chandigarh",
 };
 
 /** Hiring funnel states. */
