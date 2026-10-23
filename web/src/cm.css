@@ -1,0 +1,1305 @@
+/* ==========================================================================
+   Bano Zypp Ke CM — campaign landing page
+   ==========================================================================
+
+   EVERY selector in this file is scoped under `.bano-cm`.
+
+   This stylesheet ships inside the same single-page bundle as the rest of
+   zypp.app, so an unscoped `body`, `h1`, `input` or `footer` rule here would
+   restyle every other route the moment this chunk loads. The page owns a dark,
+   display-type look — exactly the kind of styling that does the most damage if
+   it escapes.
+
+   Same reason the keyframes are prefixed `cm-`: `@keyframes` names are global
+   wherever they are declared, so an unprefixed `fade` or `wobble` would
+   silently collide with another one elsewhere in the app.
+
+   Adding a rule here? Scope it. No exceptions.
+   ========================================================================== */
+
+.bano-cm {
+  --cm-black: #061430;
+  --cm-panel: #0c2148;
+  --cm-lime: #ccff00;
+  --cm-teal: #2de2c8;
+  --cm-hot: #ff3d71;
+  --cm-white: #fafaf8;
+  --cm-dim: #9db4d6;
+  --cm-line: #1d3a6b;
+
+  --cm-display: "Anton", Impact, sans-serif;
+  --cm-label: "Archivo Black", system-ui, sans-serif;
+  --cm-body: "Space Grotesk", system-ui, sans-serif;
+
+  /* Strong ease-out for UI; the built-in keyword is too weak at these speeds. */
+  --cm-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --cm-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+
+  --cm-dur-press: 140ms;
+  --cm-dur-pop: 220ms;
+  --cm-dur-panel: 300ms;
+  --cm-dur-slide: 420ms;
+  --cm-dur-enter: 460ms;
+  --cm-dur-cut: 520ms;
+
+  /* The page paints its own full-height ground: the app's theme provider
+     defaults to light and this route is dark. */
+  min-height: 100vh;
+  background: var(--cm-black);
+  background-image:
+    radial-gradient(60rem 40rem at 85% -10%, rgba(41, 98, 255, 0.45), transparent 60%),
+    radial-gradient(50rem 40rem at -10% 40%, rgba(204, 255, 0, 0.10), transparent 60%),
+    repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.025) 0 24px, transparent 24px 60px);
+  background-attachment: fixed;
+  color: var(--cm-white);
+  font-family: var(--cm-body);
+  font-size: 17px;
+  line-height: 1.55;
+  overflow-x: hidden;
+}
+
+.bano-cm *,
+.bano-cm *::before,
+.bano-cm *::after {
+  box-sizing: border-box;
+}
+
+.bano-cm h1,
+.bano-cm h2,
+.bano-cm h3 {
+  margin: 0;
+  font-family: var(--cm-display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 0.94;
+  text-transform: uppercase;
+}
+
+.bano-cm p,
+.bano-cm ul,
+.bano-cm ol {
+  margin: 0;
+  padding: 0;
+}
+
+.bano-cm ul,
+.bano-cm ol {
+  list-style: none;
+}
+
+.bano-cm b {
+  font-weight: 500;
+}
+
+.bano-cm ::selection {
+  background: var(--cm-lime);
+  color: #000;
+}
+
+.bano-cm .wrap {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding-inline: 24px;
+}
+
+.bano-cm .lm {
+  color: var(--cm-lime);
+}
+
+/* Available to assistive tech, never painted. */
+.bano-cm .sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.bano-cm .skip-link {
+  position: absolute;
+  left: -9999px;
+  background: var(--cm-lime);
+  color: #000;
+  font-family: var(--cm-label);
+  font-size: 0.8rem;
+  padding: 12px 20px;
+  z-index: 10;
+}
+
+.bano-cm .skip-link:focus {
+  left: 24px;
+  top: 12px;
+}
+
+.bano-cm :where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--cm-lime);
+  outline-offset: 2px;
+}
+
+/* ---------- nav ---------- */
+
+.bano-cm .cm-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--cm-line);
+}
+
+.bano-cm .brand {
+  font-family: var(--cm-label);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.bano-cm .brand span {
+  color: var(--cm-teal);
+}
+
+.bano-cm .nav-cta {
+  background: var(--cm-lime);
+  color: #000;
+  font-family: var(--cm-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 11px 20px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background var(--cm-dur-pop) var(--cm-ease-out),
+    transform var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+.bano-cm .nav-cta:hover {
+  background: var(--cm-white);
+}
+
+.bano-cm .nav-cta:active {
+  transform: scale(0.97);
+}
+
+/* ---------- hero ---------- */
+
+.bano-cm .hero {
+  padding-top: 64px;
+  padding-bottom: 24px;
+}
+
+.bano-cm .stickers {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+/*
+ * Each sticker's resting angle lives in `--tilt` rather than its own
+ * `transform`, so hover composes with that angle instead of restating it.
+ */
+.bano-cm .tag {
+  --tilt: 0deg;
+  font-family: var(--cm-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 9px 16px;
+  transform: rotate(var(--tilt));
+  /* Labels, not controls — the pop is personality, not a promise of a click. */
+  cursor: default;
+  transition:
+    transform var(--cm-dur-pop) var(--cm-ease-out),
+    box-shadow var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+.bano-cm .tag--hot {
+  --tilt: -4deg;
+  background: var(--cm-hot);
+  color: #fff;
+}
+
+.bano-cm .tag--lime {
+  --tilt: -3deg;
+  background: var(--cm-lime);
+  color: #000;
+}
+
+.bano-cm .tag--ghost {
+  --tilt: 2deg;
+  background: var(--cm-white);
+  color: #000;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  /* Reduced motion still reads the lift as depth, just without the travel. */
+  .bano-cm .tag:hover {
+    box-shadow: 0 12px 26px -10px rgb(0 0 0 / 0.7);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bano-cm .tag:hover {
+      transform: rotate(var(--tilt)) scale(1.09) translateY(-4px);
+    }
+  }
+}
+
+/*
+ * The headline is one baseline row — FROM · FRESHER · TO · CM · @zypp — sized
+ * to span the column rather than stacking and leaving the right half empty.
+ *
+ * The big words are set in vw with a rem ceiling: vw makes the line grow with
+ * the viewport, and the ceiling stops it overrunning once `.wrap` hits its
+ * 1120px max and the column stops growing with the window.
+ */
+.bano-cm .hero-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0 clamp(8px, 1.4vw, 22px);
+  width: 100%;
+}
+
+/*
+ * Every part sits at a slightly different angle. Dead-level type across a
+ * full-width line reads as a spreadsheet row; a degree or two of disagreement
+ * is what makes it look set by hand.
+ */
+.bano-cm .hero-label {
+  --tilt: 0deg;
+  font-family: var(--cm-label);
+  font-size: clamp(0.7rem, 1.5vw, 1.2rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cm-white);
+  transform: rotate(var(--tilt));
+}
+
+.bano-cm .hero-label--from {
+  --tilt: -3deg;
+}
+
+.bano-cm .hero-label--to {
+  --tilt: 2.5deg;
+}
+
+/*
+ * 13.6vw fills the column at laptop widths; the 11rem ceiling is the largest
+ * the words can be once `.wrap` stops growing — measured, not guessed:
+ * FRESHER + CM run 4.52em combined, and the labels, the @zypp mark and the
+ * minimum gaps claim ~246px of the 1072px column.
+ */
+.bano-cm .hero-word {
+  --tilt: 0deg;
+  font-size: clamp(2.4rem, 13.6vw, 11rem);
+  line-height: 0.92;
+  transform: rotate(var(--tilt));
+  transition: transform var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+/* Tilted against each other, so the line has a hinge in the middle. */
+.bano-cm .hero-word--from {
+  --tilt: -1.4deg;
+  color: #5f656e;
+}
+
+.bano-cm .hero-word--cm {
+  --tilt: 1.6deg;
+  color: var(--cm-lime);
+}
+
+/*
+ * Hovering a word knocks it off its resting angle and lets it settle back.
+ * Keyframed rather than transitioned because it overshoots in both directions
+ * and returns, which a two-state transition cannot express.
+ */
+@media (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bano-cm .hero-word:hover {
+      animation: cm-hero-wobble 620ms var(--cm-ease-out);
+    }
+  }
+}
+
+/* Below this the five parts cannot share a line legibly, so let them wrap. */
+@media (max-width: 560px) {
+  .bano-cm .hero-title {
+    justify-content: flex-start;
+    row-gap: 4px;
+  }
+
+  .bano-cm .hero-word {
+    font-size: clamp(2.8rem, 17vw, 5rem);
+  }
+}
+
+/* ---------- the struck word ---------- */
+
+/*
+ * Rendered as an <s>, so the "no longer applies" meaning reaches assistive
+ * tech. The browser's own line-through is suppressed because the slash below
+ * is drawn instead — on load, since that strike is the page's whole argument.
+ */
+.bano-cm .strike-word {
+  position: relative;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.bano-cm .strike-word__slash {
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  top: 52%;
+  height: clamp(5px, 1.3vw, 13px);
+  background: var(--cm-hot);
+  /* scaleX applies along the rotated axis, so the bar draws down its own
+     length rather than horizontally across the word. */
+  transform: rotate(-1.6deg) scaleX(0);
+  transform-origin: left center;
+}
+
+.bano-cm .strike-word.is-cut .strike-word__slash {
+  transform: rotate(-1.6deg) scaleX(1);
+}
+
+/*
+ * The sweep is gated here rather than in the component. StrikeWord always
+ * mounts uncut and flips in an effect, so a transition declared
+ * unconditionally would play the full strike for a reduced-motion reader too.
+ * With none declared, that same flip paints the finished slash instantly:
+ * keep the strike, drop the motion.
+ *
+ * `will-change` is deliberately absent — this animates once, shortly after
+ * load, and a standing hint would hold a compositor layer for the life of the
+ * page for nothing.
+ */
+@media (prefers-reduced-motion: no-preference) {
+  .bano-cm .strike-word__slash {
+    transition: transform var(--cm-dur-cut) var(--cm-ease-in-out);
+  }
+}
+
+/* ---------- the @ zypp mark ---------- */
+
+.bano-cm .hero-at {
+  --tilt: -2.5deg;
+  display: inline-block;
+  font-family: var(--cm-label);
+  color: var(--cm-teal);
+  font-size: clamp(1rem, 3.4vw, 2rem);
+  text-transform: lowercase;
+  letter-spacing: 0;
+  margin-left: 10px;
+  text-decoration: none;
+  transform: rotate(var(--tilt));
+  transform-origin: center bottom;
+  transition:
+    transform var(--cm-dur-pop) var(--cm-ease-out),
+    color var(--cm-dur-pop) var(--cm-ease-out),
+    text-shadow var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bano-cm .hero-at:hover {
+    color: var(--cm-lime);
+    text-shadow: 0 0 24px rgb(204 255 0 / 0.45);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bano-cm .hero-at:hover {
+      transform: rotate(calc(var(--tilt) + 1.5deg)) scale(1.12);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .bano-cm .hero-at:active {
+    transform: rotate(var(--tilt)) scale(1.04);
+  }
+}
+
+.bano-cm .lede {
+  font-size: clamp(1.05rem, 2.6vw, 1.32rem);
+  max-width: 640px;
+  margin-top: 22px;
+}
+
+.bano-cm .lede b {
+  color: var(--cm-teal);
+}
+
+.bano-cm .note {
+  color: var(--cm-dim);
+  font-size: 0.95rem;
+}
+
+/* ---------- prize ticket ---------- */
+
+.bano-cm .ticket {
+  position: relative;
+  margin: 46px 0 10px;
+}
+
+/*
+ * The window the strip travels behind. Clipping here is what keeps the slide
+ * inside the bar — without it the outgoing panel would be seen sailing across
+ * the rest of the hero.
+ */
+.bano-cm .ticket-viewport {
+  overflow: hidden;
+}
+
+.bano-cm .ticket-track {
+  display: flex;
+  /* Each panel is exactly one viewport wide, so the track's offset is a whole
+     number of panels and needs no measuring. */
+  width: 100%;
+}
+
+.bano-cm .ticket-panel {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  /* Right padding reserves the arrow's lane so copy never runs under it. */
+  padding: 24px 68px 24px 26px;
+  color: #000;
+}
+
+.bano-cm .ticket-panel--lime {
+  background: var(--cm-lime);
+}
+
+/*
+ * Black on this pink clears 8:1, so the small labels pass AA at their size —
+ * white would have looked more obvious but reaches only ~3.4:1 and fails
+ * everything on the bar except the big numerals.
+ */
+.bano-cm .ticket-panel--pink {
+  background: var(--cm-hot);
+}
+
+/* The perforated stub edge, drawn as a border so it cannot drift out of
+   alignment the way an absolutely positioned rule does. */
+.bano-cm .ticket-part--stub {
+  border-left: 4px dashed rgb(0 0 0 / 0.28);
+  padding-left: 28px;
+}
+
+.bano-cm .ticket-label {
+  font-family: var(--cm-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.bano-cm .ticket-amount {
+  font-family: var(--cm-display);
+  font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+  line-height: 0.9;
+}
+
+.bano-cm .ticket-sub {
+  font-family: var(--cm-label);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.bano-cm .ticket-next {
+  position: absolute;
+  top: 50%;
+  right: 18px;
+  transform: translateY(-50%);
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  border: none;
+  background: transparent;
+  color: #000;
+  font-size: 2.2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    transform var(--cm-dur-pop) var(--cm-ease-out),
+    opacity var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  @media (prefers-reduced-motion: no-preference) {
+    .bano-cm .ticket-next:hover {
+      transform: translateY(-50%) translateX(4px);
+    }
+  }
+}
+
+.bano-cm .ticket-next:active {
+  opacity: 0.6;
+}
+
+/* Only a phone is too narrow for the two amounts to share a row. */
+@media (max-width: 480px) {
+  .bano-cm .ticket-panel {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+    padding: 22px 60px 22px 20px;
+  }
+
+  .bano-cm .ticket-part--stub {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .bano-cm .ticket-next {
+    right: 8px;
+  }
+}
+
+/* ---------- sections ---------- */
+
+.bano-cm .cm-section {
+  padding-block: 76px;
+  border-top: 1px solid var(--cm-line);
+}
+
+.bano-cm .sec-head {
+  font-size: clamp(2.1rem, 6.4vw, 3.6rem);
+  margin-bottom: 12px;
+}
+
+.bano-cm .sec-intro {
+  color: var(--cm-dim);
+  max-width: 620px;
+  margin-bottom: 44px;
+}
+
+.bano-cm .own {
+  display: grid;
+  grid-template-columns: 78px 1fr;
+  gap: 20px;
+  padding: 26px 0;
+  border-bottom: 1px solid var(--cm-line);
+  align-items: start;
+}
+
+.bano-cm .own:first-child {
+  border-top: 1px solid var(--cm-line);
+}
+
+.bano-cm .own-n {
+  font-family: var(--cm-label);
+  color: var(--cm-hot);
+  font-size: 0.95rem;
+  padding-top: 8px;
+}
+
+.bano-cm .own h3 {
+  font-size: clamp(1.5rem, 4vw, 2.1rem);
+  margin-bottom: 6px;
+}
+
+.bano-cm .own p {
+  color: var(--cm-dim);
+}
+
+@media (max-width: 640px) {
+  .bano-cm .own {
+    grid-template-columns: 52px 1fr;
+    gap: 14px;
+  }
+}
+
+/*
+ * Dividers are drawn by a ring on each card, NOT by letting a parent
+ * background show through the gaps.
+ *
+ * The gap technique breaks whenever the item count does not divide evenly into
+ * the column count: five steps in a two-column layout leaves an empty sixth
+ * track, and with a coloured parent behind it that empty track paints as a
+ * stray block. A ring is drawn by the cards themselves, so a track with no card
+ * in it renders nothing at all.
+ *
+ * `box-shadow` rather than `border` because it does not take part in layout —
+ * with `gap: 0` the rings of adjacent cards overlap into a single crisp 1px
+ * line, which is the seamless look the gap version was after.
+ */
+.bano-cm .steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0;
+}
+
+.bano-cm .step {
+  background: var(--cm-panel);
+  box-shadow: 0 0 0 1px var(--cm-line);
+  padding: 26px 22px;
+}
+
+.bano-cm .step-n {
+  font-family: var(--cm-label);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  color: var(--cm-teal);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.bano-cm .step h3 {
+  font-size: 1.35rem;
+  margin-bottom: 8px;
+}
+
+.bano-cm .step p:last-child {
+  color: var(--cm-dim);
+  font-size: 0.94rem;
+}
+
+.bano-cm .bar-head {
+  font-size: 1.1rem;
+  margin: 44px 0 8px;
+  color: var(--cm-dim);
+  letter-spacing: 0.06em;
+}
+
+/* Same ring technique as .steps — four items wrap to an odd count too. */
+.bano-cm .bar {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0;
+}
+
+.bano-cm .bar li {
+  background: var(--cm-panel);
+  box-shadow: 0 0 0 1px var(--cm-line);
+  padding: 22px;
+}
+
+.bano-cm .bar b {
+  font-family: var(--cm-display);
+  font-size: 1.9rem;
+  display: block;
+  color: var(--cm-lime);
+  font-weight: 400;
+}
+
+.bano-cm .bar span {
+  color: var(--cm-dim);
+  font-size: 0.9rem;
+}
+
+.bano-cm .check {
+  display: grid;
+  gap: 14px;
+  max-width: 640px;
+}
+
+.bano-cm .check li {
+  padding-left: 34px;
+  position: relative;
+}
+
+.bano-cm .check li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: var(--cm-lime);
+  font-weight: 700;
+}
+
+.bano-cm .check--nope {
+  color: var(--cm-dim);
+  margin-top: 26px;
+}
+
+.bano-cm .check--nope li::before {
+  content: "×";
+  color: var(--cm-hot);
+}
+
+/* ---------- form ---------- */
+
+/*
+ * The form sits in the hero beside the pitch, so applying is never more than
+ * one glance away. Below 980px it drops under the pitch as a full-width card.
+ */
+.bano-cm .hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
+  gap: 48px;
+  align-items: start;
+  margin-top: 36px;
+}
+
+.bano-cm .hero-copy .lede {
+  margin-top: 0;
+}
+
+.bano-cm .hero-form {
+  position: relative;
+  background: linear-gradient(160deg, rgba(41, 98, 255, 0.16), transparent 55%), var(--cm-panel);
+  border: 1px solid var(--cm-line);
+  border-top: 4px solid var(--cm-lime);
+  padding: 30px 28px 26px;
+  box-shadow:
+    0 30px 80px -30px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(204, 255, 0, 0.04);
+  scroll-margin-top: 24px;
+}
+
+/* ---------- onboarding meter (hero, under "What you actually do") ---------- */
+
+.bano-cm .meter {
+  margin-top: 40px;
+  padding: 28px 28px 26px;
+  border: 1px solid var(--cm-line);
+  border-left: 4px solid var(--cm-teal);
+  background: linear-gradient(120deg, rgba(45, 226, 200, 0.10), transparent 60%), var(--cm-panel);
+}
+
+.bano-cm .meter-kicker {
+  font-family: var(--cm-label);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cm-teal);
+  margin-bottom: 8px;
+}
+
+.bano-cm .meter-head {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  margin-bottom: 22px;
+}
+
+.bano-cm .meter-label b {
+  color: var(--cm-lime);
+  font-size: 0.95rem;
+}
+
+/* A native range keeps keyboard and screen-reader support for free. */
+.bano-cm .meter-range {
+  appearance: none;
+  -webkit-appearance: none;
+  padding: 0;
+  height: 8px;
+  border: 0;
+  background: linear-gradient(to right, var(--cm-lime) var(--fill), #040d22 var(--fill));
+  cursor: pointer;
+}
+
+.bano-cm .meter-range:focus {
+  box-shadow: none;
+  outline: 2px solid var(--cm-lime);
+  outline-offset: 4px;
+}
+
+.bano-cm .meter-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  background: var(--cm-lime);
+  border: 3px solid #040d22;
+  transform: rotate(45deg);
+}
+
+.bano-cm .meter-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: var(--cm-lime);
+  border: 3px solid #040d22;
+  border-radius: 0;
+  transform: rotate(45deg);
+}
+
+.bano-cm .meter-out {
+  margin-top: 22px;
+}
+
+.bano-cm .meter-total {
+  font-family: var(--cm-display);
+  font-size: clamp(2.4rem, 4.6vw, 3.4rem);
+  line-height: 1;
+  color: var(--cm-lime);
+}
+
+.bano-cm .meter-total span {
+  font-family: var(--cm-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cm-white);
+}
+
+.bano-cm .meter-tier {
+  margin-top: 8px;
+  color: var(--cm-dim);
+  font-size: 0.95rem;
+}
+
+.bano-cm .meter-tier b {
+  color: var(--cm-white);
+}
+
+.bano-cm .meter-cta {
+  display: inline-block;
+  margin-top: 18px;
+  font-family: var(--cm-label);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--cm-teal);
+  text-decoration: none;
+  border-bottom: 2px solid currentColor;
+}
+
+/* "What you actually do" fills the hero's left column under the prize. */
+.bano-cm .hero-what {
+  margin-top: 56px;
+  padding-top: 40px;
+  border-top: 1px solid var(--cm-line);
+}
+
+.bano-cm .hero-what .sec-head {
+  font-size: clamp(1.9rem, 3.6vw, 2.8rem);
+}
+
+.bano-cm .form-head {
+  font-size: clamp(1.7rem, 2.6vw, 2.2rem);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.bano-cm .form-intro {
+  color: var(--cm-dim);
+  font-size: 0.92rem;
+  margin-bottom: 24px;
+}
+
+/* The card is narrow, so paired fields stack and spacing tightens. */
+.bano-cm .hero-form .grid2 {
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.bano-cm .hero-form .field {
+  margin-bottom: 18px;
+}
+
+@media (max-width: 980px) {
+  .bano-cm .hero-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .bano-cm .hero-form {
+    padding: 24px 18px 20px;
+  }
+}
+
+.bano-cm .field {
+  margin-bottom: 26px;
+}
+
+/* Consecutive hints on one field need breathing room. */
+.bano-cm .hint + .hint {
+  margin-top: -4px;
+}
+
+.bano-cm label {
+  display: block;
+  font-family: var(--cm-label);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 9px;
+}
+
+.bano-cm .req {
+  color: var(--cm-hot);
+}
+
+.bano-cm .hint {
+  display: block;
+  font-family: var(--cm-body);
+  font-size: 0.86rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--cm-dim);
+  margin-bottom: 9px;
+}
+
+/*
+ * What the applicant types is set in the same lime as the submit button, so
+ * the form reads as one instrument. Placeholders and the not-yet-chosen select
+ * stay dim, so real input is always the brightest thing in the field.
+ */
+.bano-cm input,
+.bano-cm select,
+.bano-cm textarea {
+  width: 100%;
+  background: #040d22;
+  border: 1px solid #303038;
+  color: var(--cm-lime);
+  caret-color: var(--cm-lime);
+  font-family: var(--cm-body);
+  font-size: 1rem;
+  padding: 14px 15px;
+  border-radius: 0;
+  transition:
+    border-color var(--cm-dur-pop) var(--cm-ease-out),
+    box-shadow var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+.bano-cm ::placeholder {
+  color: var(--cm-dim);
+  opacity: 1;
+}
+
+/* Empty and required: still a prompt, not an answer. */
+.bano-cm select:invalid {
+  color: var(--cm-dim);
+}
+
+.bano-cm select option {
+  background: #040d22;
+  color: var(--cm-white);
+}
+
+.bano-cm input:focus,
+.bano-cm select:focus,
+.bano-cm textarea:focus {
+  border-color: var(--cm-lime);
+  box-shadow: 0 0 0 1px var(--cm-lime);
+}
+
+.bano-cm textarea {
+  min-height: 150px;
+  resize: vertical;
+}
+
+.bano-cm .textarea--short {
+  min-height: 110px;
+}
+
+.bano-cm [aria-invalid="true"] {
+  border-color: var(--cm-hot);
+}
+
+/*
+ * Error text expands to its own height rather than a guessed pixel value, so
+ * the field below is nudged down smoothly instead of jumping.
+ */
+.bano-cm .field-error {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  opacity: 0;
+  color: var(--cm-hot);
+  font-size: 0.86rem;
+  transition:
+    grid-template-rows var(--cm-dur-pop) var(--cm-ease-out),
+    margin-top var(--cm-dur-pop) var(--cm-ease-out),
+    opacity var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+.bano-cm .field-error > span {
+  overflow: hidden;
+}
+
+.bano-cm .field-error.is-shown {
+  grid-template-rows: 1fr;
+  margin-top: 6px;
+  opacity: 1;
+}
+
+.bano-cm .count {
+  font-size: 0.82rem;
+  color: var(--cm-dim);
+  margin-top: 6px;
+  text-align: right;
+  transition: color var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+.bano-cm .count.is-near-limit {
+  color: var(--cm-hot);
+}
+
+.bano-cm .grid2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+@media (max-width: 640px) {
+  .bano-cm .grid2 {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Honeypot: off-screen rather than display:none, because some bots skip
+   fields that are explicitly hidden. */
+.bano-cm .hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.bano-cm .submit {
+  background: var(--cm-lime);
+  color: #000;
+  border: none;
+  font-family: var(--cm-label);
+  font-size: 1rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 20px 40px;
+  cursor: pointer;
+  width: 100%;
+  transition:
+    background var(--cm-dur-pop) var(--cm-ease-out),
+    transform var(--cm-dur-press) var(--cm-ease-out);
+}
+
+.bano-cm .submit:hover:not(:disabled) {
+  background: var(--cm-white);
+}
+
+.bano-cm .submit:active:not(:disabled) {
+  transform: scale(0.985);
+}
+
+.bano-cm .submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/*
+ * The live region stays mounted so announcements work, but collapses to zero
+ * height until it has something to say — and grows into it rather than
+ * snapping, because this is the moment the applicant is watching hardest.
+ */
+.bano-cm .msg {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: 0;
+  transition:
+    grid-template-rows var(--cm-dur-panel) var(--cm-ease-out),
+    margin-top var(--cm-dur-panel) var(--cm-ease-out);
+}
+
+.bano-cm .msg__inner {
+  overflow: hidden;
+  opacity: 0;
+  padding: 0 18px;
+  border-left: 4px solid var(--cm-lime);
+  background: #0d1a00;
+  transition:
+    opacity var(--cm-dur-pop) var(--cm-ease-out),
+    padding var(--cm-dur-panel) var(--cm-ease-out);
+}
+
+.bano-cm .msg.is-shown {
+  grid-template-rows: 1fr;
+  margin-top: 20px;
+}
+
+.bano-cm .msg.is-shown .msg__inner {
+  opacity: 1;
+  padding: 18px;
+  transition-delay: 60ms;
+}
+
+.bano-cm .msg--error .msg__inner {
+  border-color: var(--cm-hot);
+  background: #1a0007;
+}
+
+.bano-cm .msg a {
+  color: var(--cm-lime);
+}
+
+.bano-cm .legal {
+  color: var(--cm-dim);
+  font-size: 0.86rem;
+  margin-top: 18px;
+}
+
+/* ---------- close ---------- */
+
+.bano-cm .punch {
+  padding-top: 82px;
+  padding-bottom: 90px;
+  border-top: 1px solid var(--cm-line);
+}
+
+.bano-cm .punch h2 {
+  font-size: clamp(2.8rem, 10vw, 6.4rem);
+}
+
+.bano-cm .punch-sig {
+  color: var(--cm-dim);
+  margin-top: 22px;
+  max-width: 520px;
+}
+
+.bano-cm .cm-footer {
+  border-top: 1px solid var(--cm-line);
+  padding: 28px 0 60px;
+  color: var(--cm-dim);
+  font-size: 0.86rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/*
+ * Rests in the footer's own dim grey and lifts to lime on hover. The underline
+ * arrives with the colour rather than sitting there permanently: colour alone
+ * is not a reliable link affordance, but this is a standalone footer item
+ * rather than a link buried in a sentence.
+ */
+.bano-cm .footer-tag {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--cm-dur-pop) var(--cm-ease-out);
+}
+
+.bano-cm .footer-tag:hover,
+.bano-cm .footer-tag:focus-visible {
+  color: var(--cm-lime);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ==========================================================================
+   Motion
+   Every hidden state below is applied by a class only JS or a keyframe can
+   produce. Nothing is left at `opacity: 0` by the stylesheet alone, so a
+   bundle that fails to load renders a plain, complete page rather than a
+   blank one.
+   ========================================================================== */
+
+@media (prefers-reduced-motion: no-preference) {
+  /*
+   * The prize strip. A transition rather than keyframes, because the arrow can
+   * be hit twice in a second and a transition retargets from wherever the
+   * track currently sits — keyframes would snap back and restart.
+   */
+  .bano-cm .ticket-track {
+    transition: transform var(--cm-dur-slide) var(--cm-ease-in-out);
+  }
+
+  /* Hero: one cascade on load, in reading order. */
+  .bano-cm .hero > * {
+    animation: cm-hero-enter var(--cm-dur-enter) var(--cm-ease-out) both;
+  }
+
+  .bano-cm .hero > *:nth-child(1) {
+    animation-delay: 40ms;
+  }
+  .bano-cm .hero > *:nth-child(2) {
+    animation-delay: 110ms;
+  }
+  .bano-cm .hero > *:nth-child(3) {
+    animation-delay: 180ms;
+  }
+  .bano-cm .hero > *:nth-child(4) {
+    animation-delay: 250ms;
+  }
+  .bano-cm .hero > *:nth-child(5) {
+    animation-delay: 320ms;
+  }
+  .bano-cm .hero > *:nth-child(6) {
+    animation-delay: 390ms;
+  }
+
+  /* Sections fade as a block… */
+  .bano-cm .is-armed {
+    opacity: 0;
+    transform: translateY(18px);
+    transition:
+      opacity var(--cm-dur-enter) var(--cm-ease-out),
+      transform var(--cm-dur-enter) var(--cm-ease-out);
+  }
+
+  .bano-cm .is-armed.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* …and their rows cascade inside it. */
+  .bano-cm .is-armed .stagger > * {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--cm-dur-enter) var(--cm-ease-out),
+      transform var(--cm-dur-enter) var(--cm-ease-out);
+  }
+
+  .bano-cm .is-armed.is-visible .stagger > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bano-cm .is-armed.is-visible .stagger > *:nth-child(1) {
+    transition-delay: 60ms;
+  }
+  .bano-cm .is-armed.is-visible .stagger > *:nth-child(2) {
+    transition-delay: 120ms;
+  }
+  .bano-cm .is-armed.is-visible .stagger > *:nth-child(3) {
+    transition-delay: 180ms;
+  }
+  .bano-cm .is-armed.is-visible .stagger > *:nth-child(4) {
+    transition-delay: 240ms;
+  }
+  .bano-cm .is-armed.is-visible .stagger > *:nth-child(5) {
+    transition-delay: 300ms;
+  }
+  .bano-cm .is-armed.is-visible .stagger > *:nth-child(6) {
+    transition-delay: 360ms;
+  }
+}
+
+/* Prefixed: @keyframes names are global wherever they are declared. */
+@keyframes cm-hero-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes cm-hero-wobble {
+  0% {
+    transform: rotate(var(--tilt)) scale(1);
+  }
+  28% {
+    transform: rotate(calc(var(--tilt) + 2.2deg)) scale(1.035);
+  }
+  55% {
+    transform: rotate(calc(var(--tilt) - 1.5deg)) scale(1.015);
+  }
+  80% {
+    transform: rotate(calc(var(--tilt) + 0.7deg)) scale(1.005);
+  }
+  100% {
+    transform: rotate(var(--tilt)) scale(1);
+  }
+}

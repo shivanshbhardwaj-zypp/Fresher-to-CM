@@ -1,0 +1,16 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Secrets: MONGODB_URI carries the database password and ADMIN_TOKEN unlocks
+# every applicant's details. Only .env.example is ever committed.
+.env
+.env.*
+!.env.example
+
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
