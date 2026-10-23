@@ -12,10 +12,10 @@
 const SHEET_NAME = 'Sheet1';
 const HEADERS = [
   'Submitted at', 'Name', 'Phone', 'Email', 'City', 'Experience',
-  'Highest education', 'Degree', 'Previous experience', 'LinkedIn / portfolio', 'Answer',
+  'Highest education', 'Degree', 'College', 'Previous experience', 'LinkedIn / portfolio', 'Answer',
 ];
 
-const CITIES = ['delhi', 'gurgaon', 'noida', 'jaipur', 'bangalore', 'mumbai', 'hyderabad', 'lucknow'];
+const CITIES = ['delhi', 'gurgaon', 'noida', 'jaipur', 'bangalore', 'mumbai', 'hyderabad', 'lucknow', 'chennai', 'chandigarh'];
 const EXPERIENCE = ['studying', 'fresher', 'under_1_year', '1_2_years', 'over_2_years'];
 const EDUCATION = ['10th', '12th', 'diploma', 'graduate', 'postgraduate'];
 
@@ -38,6 +38,7 @@ function doPost(e) {
     experience: str(data.experience),
     education: str(data.education),
     degree: str(data.degree, 120),
+    college: str(data.college, 160),
     previousExperience: str(data.previousExperience, 1000),
     link: str(data.link, 500),
     answer: str(data.answer, 2000),
@@ -68,7 +69,7 @@ function doPost(e) {
 
     sheet.appendRow([
       new Date(), v.name, "'" + v.phone, v.email, v.city, v.experience,
-      v.education, v.degree, v.previousExperience, v.link, v.answer,
+      v.education, v.degree, v.college, v.previousExperience, v.link, v.answer,
     ].map(safe));
   } finally {
     lock.releaseLock();

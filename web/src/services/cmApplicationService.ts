@@ -29,6 +29,8 @@ export const CITY_OPTIONS = [
   { value: "mumbai", label: "Mumbai" },
   { value: "hyderabad", label: "Hyderabad" },
   { value: "lucknow", label: "Lucknow" },
+  { value: "chennai", label: "Chennai" },
+  { value: "chandigarh", label: "Chandigarh" },
 ] as const;
 
 export type City = (typeof CITY_OPTIONS)[number]["value"];
@@ -51,6 +53,7 @@ export interface CmApplicationFormData {
   experience: ExperienceLevel | "";
   education: Education | "";
   degree?: string;
+  college?: string;
   previousExperience?: string;
   link?: string;
   /** One answer covering both "why you" and "what would you fix first". */

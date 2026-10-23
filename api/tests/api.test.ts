@@ -132,8 +132,8 @@ describe(`POST ${ENDPOINT}`, () => {
     expect(res.body.error.details.experience).toBeDefined();
   });
 
-  it("rejects a city outside the eight Zypp operates in", async () => {
-    const res = await request(app).post(ENDPOINT).send({ ...VALID_APPLICATION, city: "Chennai" });
+  it("rejects a city outside the ones Zypp operates in", async () => {
+    const res = await request(app).post(ENDPOINT).send({ ...VALID_APPLICATION, city: "Kolkata" });
 
     expect(res.status).toBe(400);
     expect(res.body.error.details.city).toBeDefined();
