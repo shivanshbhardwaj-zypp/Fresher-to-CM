@@ -12,12 +12,11 @@
 const SHEET_NAME = 'Sheet1';
 const HEADERS = [
   'Submitted at', 'Name', 'Phone', 'Email', 'City', 'Experience',
-  'Highest education', 'Degree', 'College', 'Previous experience', 'LinkedIn / portfolio', 'Answer',
+  'Degree', 'College', 'Previous experience', 'LinkedIn / portfolio', 'Answer', 'Audio / video link',
 ];
 
 const CITIES = ['delhi', 'gurgaon', 'noida', 'jaipur', 'bangalore', 'mumbai', 'hyderabad', 'lucknow', 'chennai', 'chandigarh'];
 const EXPERIENCE = ['studying', 'fresher', 'under_1_year', '1_2_years', 'over_2_years'];
-const EDUCATION = ['10th', '12th', 'diploma', 'graduate', 'postgraduate'];
 
 function doPost(e) {
   let data;
@@ -36,12 +35,12 @@ function doPost(e) {
     email: str(data.email, 254).toLowerCase(),
     city: str(data.city),
     experience: str(data.experience),
-    education: str(data.education),
     degree: str(data.degree, 120),
     college: str(data.college, 160),
     previousExperience: str(data.previousExperience, 1000),
     link: str(data.link, 500),
     answer: str(data.answer, 2000),
+    mediaLink: str(data.mediaLink, 500),
   };
 
   const details = {};
@@ -50,9 +49,11 @@ function doPost(e) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.email)) details.email = ['Enter a valid email'];
   if (CITIES.indexOf(v.city) < 0) details.city = ['Select a city'];
   if (EXPERIENCE.indexOf(v.experience) < 0) details.experience = ['Select your experience level'];
-  if (EDUCATION.indexOf(v.education) < 0) details.education = ['Select your highest education'];
+  if (v.degree.length < 2) details.degree = ['Enter your degree or highest qualification'];
   if (v.link && !/^https?:\/\//i.test(v.link)) details.link = ['Link must start with http:// or https://'];
-  if (v.answer.length < 60) details.answer = ['Tell us a bit more — at least 60 characters'];
+  if (v.mediaLink && !/^https?:\/\//i.test(v.mediaLink)) details.mediaLink = ['Link must start with http:// or https://'];
+  // A recorded pitch replaces the written answer.
+  if (!v.mediaLink && v.answer.length < 60) details.answer = ['Write at least 60 characters, or add an audio/video link'];
   if (Object.keys(details).length) return reply(400, 'Check the highlighted fields.', details);
 
   const lock = LockService.getScriptLock();
@@ -69,7 +70,7 @@ function doPost(e) {
 
     sheet.appendRow([
       new Date(), v.name, "'" + v.phone, v.email, v.city, v.experience,
-      v.education, v.degree, v.college, v.previousExperience, v.link, v.answer,
+      v.degree, v.college, v.previousExperience, v.link, v.answer, v.mediaLink,
     ].map(safe));
   } finally {
     lock.releaseLock();

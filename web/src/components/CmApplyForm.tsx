@@ -3,7 +3,6 @@ import {
   cmApplicationService,
   CmApplicationError,
   CITY_OPTIONS,
-  EDUCATION_OPTIONS,
   type CmApplicationFormData,
 } from "../services/cmApplicationService";
 
@@ -34,12 +33,12 @@ const EMPTY: CmApplicationFormData = {
   email: "",
   city: "",
   experience: "",
-  education: "",
   degree: "",
   college: "",
   previousExperience: "",
   link: "",
   answer: "",
+  mediaLink: "",
   /** Honeypot — see the hidden field near the bottom of the form. */
   company: "",
 };
@@ -282,53 +281,41 @@ const CmApplyForm = () => {
 
       <div className="grid2">
         <div className="field">
-          <label htmlFor="education">
-            Highest education{" "}
+          <label htmlFor="degree">
+            Degree{" "}
             <span className="req" aria-hidden="true">
               *
             </span>
           </label>
-          <select {...fieldProps("education")} required aria-describedby="education-error">
-            <option value="">Select</option>
-            {EDUCATION_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-          <ErrorSlot name="education" />
-        </div>
-
-        <div className="field">
-          <label htmlFor="degree">Degree</label>
           <input
             {...fieldProps("degree")}
             type="text"
-            placeholder="e.g. B.Com, BBA, B.Tech"
+            required
+            placeholder="e.g. B.Com, BBA, B.Tech, 12th"
             maxLength={120}
             aria-describedby="degree-hint degree-error"
           />
           <span className="hint" id="degree-hint">
-            Optional. No degree is fine.
+            Your highest qualification. No degree? Write 12th, 10th or Diploma.
           </span>
           <ErrorSlot name="degree" />
         </div>
-      </div>
 
-      <div className="field">
-        <label htmlFor="college">College</label>
-        <input
-          {...fieldProps("college")}
-          type="text"
-          placeholder="e.g. Delhi University"
-          autoComplete="organization"
-          maxLength={160}
-          aria-describedby="college-hint college-error"
-        />
-        <span className="hint" id="college-hint">
-          Optional. Where you study or last studied.
-        </span>
-        <ErrorSlot name="college" />
+        <div className="field">
+          <label htmlFor="college">College</label>
+          <input
+            {...fieldProps("college")}
+            type="text"
+            placeholder="e.g. Delhi University"
+            autoComplete="organization"
+            maxLength={160}
+            aria-describedby="college-hint college-error"
+          />
+          <span className="hint" id="college-hint">
+            Optional. Where you study or last studied.
+          </span>
+          <ErrorSlot name="college" />
+        </div>
       </div>
 
       <div className="field">
@@ -347,19 +334,19 @@ const CmApplyForm = () => {
 
       <div className="field">
         <label htmlFor="answer">
-          Why you? And if you ran a Zypp city for 90 days, how would you get more riders on board?{" "}
+          Why you? And if you think you can onboard riders, convince us how.{" "}
           <span className="req" aria-hidden="true">
             *
           </span>
         </label>
         <span className="hint" id="answer-hint">
-          Be specific. Talk to a few delivery riders, find out why they would (or wouldn't) join Zypp,
-          then tell us your plan. This is the answer that decides shortlists.
+          Write it here, or record an audio or video and share the link below — either one works.
+          Talk to a few delivery riders first and tell us your plan. This is what decides shortlists.
         </span>
         <textarea
           {...fieldProps("answer")}
-          required
-          minLength={60}
+          required={!values.mediaLink}
+          minLength={values.mediaLink ? undefined : 60}
           maxLength={ANSWER_LIMIT}
           aria-describedby="answer-hint answer-count answer-error"
         />
@@ -370,6 +357,21 @@ const CmApplyForm = () => {
           {values.answer.length} / {ANSWER_LIMIT}
         </p>
         <ErrorSlot name="answer" />
+      </div>
+
+      <div className="field">
+        <label htmlFor="mediaLink">Audio or video link</label>
+        <input
+          {...fieldProps("mediaLink")}
+          type="url"
+          placeholder="https://"
+          maxLength={500}
+          aria-describedby="mediaLink-hint mediaLink-error"
+        />
+        <span className="hint" id="mediaLink-hint">
+          Optional if you wrote your answer. Google Drive, YouTube or Loom — set it so anyone with the link can view.
+        </span>
+        <ErrorSlot name="mediaLink" />
       </div>
 
       {/*
