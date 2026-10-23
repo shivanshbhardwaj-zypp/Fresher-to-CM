@@ -35,29 +35,20 @@ export const CITY_OPTIONS = [
 
 export type City = (typeof CITY_OPTIONS)[number]["value"];
 
-export const EDUCATION_OPTIONS = [
-  { value: "10th", label: "10th" },
-  { value: "12th", label: "12th" },
-  { value: "diploma", label: "Diploma" },
-  { value: "graduate", label: "Graduate" },
-  { value: "postgraduate", label: "Postgraduate" },
-] as const;
-
-export type Education = (typeof EDUCATION_OPTIONS)[number]["value"];
-
 export interface CmApplicationFormData {
   name: string;
   phone: string;
   email: string;
   city: City | "";
   experience: ExperienceLevel | "";
-  education: Education | "";
-  degree?: string;
+  degree: string;
   college?: string;
   previousExperience?: string;
   link?: string;
   /** One answer covering both "why you" and "what would you fix first". */
   answer: string;
+  /** Audio or video pitch hosted elsewhere; stands in for the written answer. */
+  mediaLink?: string;
   /** Honeypot. Always empty for a human; the server drops anything that fills it. */
   company?: string;
 }
