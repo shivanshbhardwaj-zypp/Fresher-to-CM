@@ -18,14 +18,14 @@
    ========================================================================== */
 
 .bano-cm {
-  --cm-black: #061430;
-  --cm-panel: #0c2148;
+  --cm-black: #05071f;
+  --cm-panel: #0f1a45;
   --cm-lime: #ccff00;
   --cm-teal: #2de2c8;
   --cm-hot: #ff3d71;
   --cm-white: #fafaf8;
   --cm-dim: #9db4d6;
-  --cm-line: #1d3a6b;
+  --cm-line: #243a7a;
 
   --cm-display: "Anton", Impact, sans-serif;
   --cm-label: "Archivo Black", system-ui, sans-serif;
@@ -47,8 +47,9 @@
   min-height: 100vh;
   background: var(--cm-black);
   background-image:
-    radial-gradient(60rem 40rem at 85% -10%, rgba(41, 98, 255, 0.45), transparent 60%),
-    radial-gradient(50rem 40rem at -10% 40%, rgba(204, 255, 0, 0.10), transparent 60%),
+    radial-gradient(55rem 38rem at 90% -10%, rgba(76, 61, 255, 0.55), transparent 60%),
+    radial-gradient(45rem 35rem at -5% 35%, rgba(255, 61, 113, 0.18), transparent 60%),
+    radial-gradient(50rem 40rem at 50% 110%, rgba(45, 226, 200, 0.16), transparent 60%),
     repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.025) 0 24px, transparent 24px 60px);
   background-attachment: fixed;
   color: var(--cm-white);
