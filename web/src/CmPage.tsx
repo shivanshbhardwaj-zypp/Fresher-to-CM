@@ -133,7 +133,19 @@ const BanoZyppKeCM = () => (
             <PrizeTicket />
 
             <p className="note">Paid stipend for all 90 days. Strong runners-up get offers too.</p>
+          </div>
 
+          <section className="hero-form" id="apply" aria-labelledby="apply-head">
+            <h2 className="form-head" id="apply-head">
+              Apply to be a <span className="lm">City Manager</span>
+            </h2>
+            <p className="form-intro">
+              Two minutes. Straight to the founder's desk. The last question decides shortlists.
+            </p>
+            <CmApplyForm />
+          </section>
+
+          <div className="hero-more">
             <Reveal className="hero-what" aria-labelledby="what-you-do">
               <h2 className="sec-head" id="what-you-do">
                 What you <span className="lm">actually</span> do
@@ -160,15 +172,6 @@ const BanoZyppKeCM = () => (
             <OnboardingMeter />
           </div>
 
-          <section className="hero-form" id="apply" aria-labelledby="apply-head">
-            <h2 className="form-head" id="apply-head">
-              Apply to be a <span className="lm">City Manager</span>
-            </h2>
-            <p className="form-intro">
-              Two minutes. Straight to the founder's desk. The last question decides shortlists.
-            </p>
-            <CmApplyForm />
-          </section>
         </div>
       </header>
 

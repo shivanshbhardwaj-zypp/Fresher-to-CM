@@ -731,14 +731,28 @@
 
 /*
  * The form sits in the hero beside the pitch, so applying is never more than
- * one glance away. Below 980px it drops under the pitch as a full-width card.
+ * one glance away. Below 980px it stacks right after the prize, before the
+ * long "What you actually do" section. The DOM is in that mobile order, so
+ * tab order matches what is on screen at every width.
  */
 .bano-cm .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 440px);
-  gap: 48px;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "copy form"
+    "more form";
+  column-gap: 48px;
   align-items: start;
   margin-top: 36px;
+}
+
+.bano-cm .hero-copy {
+  grid-area: copy;
+}
+
+.bano-cm .hero-more {
+  grid-area: more;
 }
 
 .bano-cm .hero-copy .lede {
@@ -755,6 +769,7 @@
     0 30px 80px -30px rgba(0, 0, 0, 0.7),
     0 0 0 1px rgba(204, 255, 0, 0.04);
   scroll-margin-top: 24px;
+  grid-area: form;
 }
 
 /* ---------- onboarding meter (hero, under "What you actually do") ---------- */
@@ -898,6 +913,12 @@
 @media (max-width: 980px) {
   .bano-cm .hero-grid {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+    grid-template-areas:
+      "copy"
+      "form"
+      "more";
+    row-gap: 36px;
   }
 }
 
